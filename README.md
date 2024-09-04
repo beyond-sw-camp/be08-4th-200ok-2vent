@@ -4,7 +4,8 @@
 
 
 <div align="center">
-  <br><b>:dizzy:한화시스템 BEYOND SW캠프 4차 프로젝트:dizzy:</b></br></div>
+  <br><b>:dizzy:한화시스템 BEYOND SW캠프 4차 프로젝트:dizzy:</b>
+  <br><b>Jenkins 파이프라인 테스트 - v1</b></div>
 
   <br>
 <br>
