@@ -80,17 +80,18 @@ pipeline {
                     }
                 }
             }
-//
-//             post {
-//                 always {
-//                     script {
-//                         dockerImage.inside {
-//                             // sh 'docker rmi ${DOCKER_HUB_REPO}:${IMAGE_TAG} || true'
-//                             sh 'docker rmi image-build-test:${IMAGE_TAG} || true'
-//                         }
-//                     }
-//                 }
-//             }
+
+            post {
+                container('docker'){
+                    always {
+                        script {
+                            dockerImage.inside {
+                                sh 'docker rmi $DOCKER_HUB_REPO:$IMAGE_TAG || true'
+                            }
+                        }
+                    }
+                }
+            }
         }
     } 
     post {
