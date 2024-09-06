@@ -7,7 +7,7 @@ pipeline {
             metadata:
               namespace: default  # 네임스페이스 수정
             spec:
-              serviceAccountName: jenkins  # 서비스 계정 설정
+              serviceAccountName: default # 서비스 계정 설정
               containers:
               - name: gradle
                 image: gradle:7.0-jdk11
