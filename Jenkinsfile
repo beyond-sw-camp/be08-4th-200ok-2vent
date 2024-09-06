@@ -5,7 +5,7 @@ pipeline {
             apiVersion: v1
             kind: Pod
             metadata:
-              namespace: jenkins  # 네임스페이스 설정
+              namespace: default  # 네임스페이스 수정
             spec:
               serviceAccountName: jenkins  # 서비스 계정 설정
               containers:
