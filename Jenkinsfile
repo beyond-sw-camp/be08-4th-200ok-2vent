@@ -76,10 +76,6 @@ pipeline {
                             sh 'docker image inspect $DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG'
                             sh 'docker push $DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG'
 
-                            dockerImage.inside {
-                                sh 'docker rmi $DOCKER_HUB_REPO:$IMAGE_TAG || true'
-                            }
-
                         sh 'docker logout'
                     }
                 }
