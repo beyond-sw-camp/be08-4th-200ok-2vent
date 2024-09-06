@@ -57,17 +57,19 @@ pipeline {
             }
         }
         stage('Build Docker Image') {
-            steps {
-                container('docker') {  // Docker 컨테이너 사용
-                    script {
-                        sh '''
-                        docker build -t my-docker-image:${env.BUILD_NUMBER} .
-                        '''
-                    }
+    steps {
+        container('docker') {  // Docker 컨테이너 사용
+            script {
+                withCredentials([string(credentialsId: 'kubernetes-token2', variable: 'DOCKER_TOKEN')]) {
+                    sh '''
+                    echo "$DOCKER_TOKEN" | docker login -u <username> --password-stdin
+                    docker build -t my-docker-image:${env.BUILD_NUMBER} .
+                    '''
                 }
             }
         }
     }
+}
     post {
         success {
             echo 'Application successfully built and Docker image created!'
