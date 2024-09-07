@@ -56,6 +56,7 @@ pipeline {
                 }
             }
         }
+        
         stage('Build Docker Image') {
             steps {
                 container('docker') {  // Docker 컨테이너 사용
