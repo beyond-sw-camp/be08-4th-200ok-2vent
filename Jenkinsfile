@@ -21,6 +21,11 @@ pipeline {
             '''
         }
     }
+
+    tools {
+        nodejs 'NodeJS 22.8.0'
+    }
+
     environment {
         DOCKER_HUB_REPO = 'henhen7/be08-4th-2team' // -> ${도커허브 아이디}/{레포지토리 이름}
         DOCKER_IMAGE_TAG = "${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
