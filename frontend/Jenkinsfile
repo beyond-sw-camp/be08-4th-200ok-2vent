@@ -54,7 +54,9 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh "npm install"
+                dir('frontend') {
+                    sh "npm install"
+                }
             }
         }
         stage('Build Frontend') {
@@ -62,7 +64,9 @@ pipeline {
                 expression { env.FRONTEND_CHANGED == 'true' }
             }
             steps {
-                sh "npm run build"
+                dir('frontend') {
+                    sh "npm run build"
+                }
             }
         }
         stage('Docker Image Build & Push') {

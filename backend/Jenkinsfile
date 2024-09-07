@@ -60,6 +60,7 @@ pipeline {
             }
             steps {
                 sh """
+                    cd ./backend
                     pwd
                     ls -la
                     chmod +x gradlew
