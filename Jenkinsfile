@@ -29,7 +29,7 @@ pipeline {
         // GitHub에서 소스 코드 체크아웃
         stage('Checkout Code from GitHub') {
             steps {
-                git branch: 'jenkins-front', 
+                git branch: 'jenkins-back',
                 url: 'https://github.com/beyond-sw-camp/be08-4th-2team.git',
                 credentialsId: 'be08-4th-2team-jenkins'
             }
