@@ -45,14 +45,21 @@ pipeline {
                 credentialsId: 'be08-4th-2team-jenkins'
             }
         }
+        stage('Check Changes') {
+            steps {
+                script {
+                    def changedFiles = sh(script: 'git diff-tree --no-commit-id --name-only -r $GIT_COMMIT', returnStdout: true).trim().split('\n')
+                    env.BACKEND_CHANGED = changedFiles.any { it.startsWith('backend/') } ? 'true' : 'false'
+                }
+            }
+        }
         // Build
         stage('Build Backend') {
+            when {
+                expression { env.BACKEND_CHANGED == 'true' }
+            }
             steps {
-                // sh 'ls -la ./backend'
-                // sh "chmod +x ./backend/gradlew"
-                // sh './backend/gradlew build'
                 sh """
-                    cd ./backend
                     pwd
                     ls -la
                     chmod +x gradlew
@@ -62,6 +69,9 @@ pipeline {
         }
         // Build Docker Image
         stage('Docker Image Build & Push') {
+            when {
+                expression { env.BACKEND_CHANGED == 'true' }
+            }
             steps {
                 container('docker'){
                     script {
