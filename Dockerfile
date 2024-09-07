@@ -1,5 +1,5 @@
-FROM eclipse-temurin:21-jre-alpine
+FROM nginx:alpine 
 LABEL maintainer="henhen7 <g1008702@gmail.com>"
-COPY ./backend/build/libs/backend-latest.jar /root
-WORKDIR /root
-CMD [ "java", "-jar", "backend-latest.jar" ]
+COPY frontend/dist /usr/share/nginx/html
+CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 80
