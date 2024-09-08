@@ -18,8 +18,8 @@ public class SwaggerConfig {
 
     private Info apiInfo(){
         return new Info()
-                .title("Illvent API")
+                .title("2vent API")
                 .version("1.0")
-                .description("Illvent API Server");
+                .description("2vent API Server");
     }
 }
