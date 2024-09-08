@@ -94,7 +94,8 @@ pipeline {
                 }
             }
         }
-    } 
+    }
+    
     post {
         success {
             echo 'Backend application successfully built and Docker image pushed!'
