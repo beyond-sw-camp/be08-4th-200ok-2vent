@@ -58,13 +58,13 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                dir('frontend') {
-                    sh "npm install"
-                }
-            }
-        }
+//         stage('Install Dependencies') {
+//             steps {
+//                 dir('frontend') {
+//                     sh "npm install"
+//                 }
+//             }
+//         }
         stage('Build Frontend') {
             when {
                 expression { env.FRONTEND_CHANGED == 'true' }
@@ -72,7 +72,10 @@ pipeline {
             steps {
 //                 application.yml처럼 credentials 파일 필요하면 추가
                 dir('frontend') {
-                    sh "npm run build"
+                    sh """
+                    npm install
+                    npm run build
+                    """
                 }
             }
         }
