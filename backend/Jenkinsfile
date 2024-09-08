@@ -100,8 +100,8 @@ pipeline {
             }
         }
         stage('deploy') {
-            container('kubectl'){
-                steps {
+            steps {
+                container('kubectl'){
                     sh 'sed -i "s/TAG/&DOCKER_IMAGE_TAG/g" ./k8s/backend/backend-deployment.yaml'
                     sh 'kubectl -f ./k8s/backend'
                 }
