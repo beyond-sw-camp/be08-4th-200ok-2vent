@@ -28,7 +28,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_REPO = 'sjpark08/be08-4th-2team-frontend' // -> ${도커허브 아이디}/{레포지토리 이름}
-        DOCKER_IMAGE_TAG = "${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
+        DOCKER_IMAGE_TAG = "0.${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
     }
     stages {
         // GitHub에서 소스 코드 체크아웃
