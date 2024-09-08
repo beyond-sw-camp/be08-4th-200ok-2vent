@@ -60,7 +60,7 @@ pipeline {
             }
             steps {
                 sh """
-                    cd ./backend
+                    cd ./backend/src/main
                     echo '02. Database :: UserName, Password Setting\'
                     sed -i "s/$DB_USERNAME/${params.DB_USERNAME}/" "application.yml"
                     sed -i "s/\${DB_PASSWORD}/${params.DB_PASSWORD}/" "application.yml"
