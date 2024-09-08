@@ -117,7 +117,7 @@ pipeline {
                             echo "DockerImageTag : ${dockerImageTag}"
                             sh '/builder/kubectl version'
                             sh '/builder/kubectl get po'
-//                             sh 'kubectl set image deploy department-deploy department=$DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG -n default'
+//                             sh 'kubectl set image deployment frontend-deployment frontend-container=$DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG -n default'
                         }
                     }
                 }
