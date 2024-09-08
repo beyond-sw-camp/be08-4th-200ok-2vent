@@ -88,10 +88,10 @@
   const loadPost = async () => {
     try {
       const postId = route.params.id
-      const response = await axios.get(`http://localhost:8080/v1/api/post/${postId}`)
+      const response = await axios.get(`http://localhost:30080/v1/api/post/${postId}`)
       post.value = response.data
 
-      const updatedResponse = await axios.put(`http://localhost:8080/v1/api/post/update/${postId}`, {
+      const updatedResponse = await axios.put(`http://localhost:30080/v1/api/post/update/${postId}`, {
         views: post.value.views + 1
       })
 
@@ -103,7 +103,7 @@
 
   const increaseLikes = async () => {
     try {
-      const response = await axios.put(`http://localhost:8080/v1/api/post/update/${route.params.id}`, { 
+      const response = await axios.put(`http://localhost:30080/v1/api/post/update/${route.params.id}`, { 
         likes: post.value.likes + 1 
       });
 
@@ -117,7 +117,7 @@
     if (confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
       try {
         const postId = route.params.id;
-        await axios.delete(`http://localhost:8080/v1/api/post/delete/${postId}`);
+        await axios.delete(`http://localhost:30080/v1/api/post/delete/${postId}`);
 
         alert("게시물이 삭제되었습니다.");
         router.push('/boards'); // 삭제 후 게시물 목록으로 이동
@@ -136,7 +136,7 @@
           memberNo: memberInfo.no 
         };
         
-        await axios.post(`http://localhost:8080/v1/api/comment/register/${postId}`, commentData);
+        await axios.post(`http://localhost:30080/v1/api/comment/register/${postId}`, commentData);
 
         comments.value.push({
           text: newComment.value,

@@ -99,7 +99,7 @@ const submitForm = async () => {
 
     console.log(newPost); // 로그 추가
 
-    await axios.post('http://localhost:8080/v1/api/post/register/' + userInfo.no, newPost);
+    await axios.post('http://localhost:30080/v1/api/post/register/' + userInfo.no, newPost);
     router.push('/boards')
   } catch (error) {
     console.error("게시물 등록 중 오류 발생:", error);

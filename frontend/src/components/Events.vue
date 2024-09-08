@@ -94,7 +94,7 @@ export default {
             if(isLoggedIn === 'false') return;
 
             const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            const resultLike = await axios.get(`http://localhost:8080/v1/api/member/list/wish/${userInfo.no}`);
+            const resultLike = await axios.get(`http://localhost:30080/v1/api/member/list/wish/${userInfo.no}`);
             listLike.value = resultLike.data;
             console.log(listLike.value);
         };
@@ -148,7 +148,7 @@ export default {
 
         const scrapApi = async(memberNo,eventNo)=>{
             try{
-                await axios.post('http://localhost:8080/v1/api/wish/register',{
+                await axios.post('http://localhost:30080/v1/api/wish/register',{
                     memberNo,
                     eventNo
                 }).then((res)=>{

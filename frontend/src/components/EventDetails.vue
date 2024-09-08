@@ -55,7 +55,7 @@
     import { defineComponent, ref, computed, onMounted } from 'vue';
     import { useRoute } from 'vue-router';
     import axios from 'axios';
-    const baseUrl = 'http://localhost:8080/v1/api/event';
+    const baseUrl = 'http://localhost:30080/v1/api/event';
     
 export default {
     name: 'EventDetails',
