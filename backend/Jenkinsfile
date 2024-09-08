@@ -27,16 +27,6 @@ pipeline {
         DOCKER_IMAGE_TAG = "0.${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
     }
     stages {
-        // Docker가 설치되어 있는지 확인
-        // stage('Preparation') {
-        //     steps {
-        //         script {
-        //             containers('docker') {
-        //                 sh 'docker --version' 
-        //             }
-        //         }
-        //     }
-        // }
         // GitHub에서 소스 코드 체크아웃
         stage('Checkout Code from GitHub') {
             steps {
