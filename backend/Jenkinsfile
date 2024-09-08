@@ -103,18 +103,34 @@ pipeline {
         //     echo 'Failed to build or push Docker image.'
         // }
         success {
-            discordSend description: "알림테스트", 
-                        footer: "테스트 빌드가 성공쓰.", 
-                        link: env.BUILD_URL, result: currentBuild.currentResult, 
-                        title: "테스트 젠킨스 job", 
-                        webhookURL: env.WEBHOOK_URL
+            script {
+                def webhookUrl = "${WEBHOOK_URL}"
+                def message = [
+                    'content': "빌드가 성공적으로 완료되었습니다!",
+                    'embeds': [[
+                        'title': "${env.JOB_NAME} 빌드 성공",
+                        'description': "제목 : ${currentBuild.displayName}\n결과 : ${currentBuild.result}\n실행 시간 : ${currentBuild.duration / 1000}s",
+                        'url': env.BUILD_URL
+                    ]]
+                ]
+                def jsonMessage = groovy.json.JsonOutput.toJson(message)
+                sh "curl -H 'Content-Type: application/json' -X POST -d '${jsonMessage}' ${webhookUrl}"
+            }
         }
         failure {
-            discordSend description: "알림테스트", 
-                        footer: "에라이 테스트 빌드가 실싪실실패했습니다.", 
-                        link: env.BUILD_URL, result: currentBuild.currentResult, 
-                        title: "테스트 젠킨스 job", 
-                        webhookURL: env.WEBHOOK_URL
+            script {
+                def webhookUrl = "${WEBHOOK_URL}"
+                def message = [
+                    'content': "빌드가 실패했습니다.",
+                    'embeds': [[
+                        'title': "${env.JOB_NAME} 빌드 실패",
+                        'description': "제목 : ${currentBuild.displayName}\n결과 : ${currentBuild.result}\n실행 시간 : ${currentBuild.duration / 1000}s",
+                        'url': env.BUILD_URL
+                    ]]
+                ]
+                def jsonMessage = groovy.json.JsonOutput.toJson(message)
+                sh "curl -H 'Content-Type: application/json' -X POST -d '${jsonMessage}' ${webhookUrl}"
+            }
         }
     }
     
