@@ -115,8 +115,8 @@ pipeline {
                         if (isDeploy) {
                             def dockerImageTag = "${env.BUILD_NUMBER}"
                             echo "DockerImageTag : ${dockerImageTag}"
-                            sh 'kubectl version'
-                            sh 'kubectl get po'
+                            sh '/builder/kubectl version'
+                            sh '/builder/kubectl get po'
 //                             sh 'kubectl set image deploy department-deploy department=$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG -n default'
                         }
                     }
