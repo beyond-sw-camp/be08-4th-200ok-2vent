@@ -34,6 +34,7 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = 'henhen7/be08-4th-2team' // -> ${도커허브 아이디}/{레포지토리 이름}
         DOCKER_IMAGE_TAG = "1.${env.BUILD_NUMBER}-fe" // Jenkins에서 자동으로 생성
+        WEBHOOK_URL = credentials('discord_webhook')
     }
     stages {
         // GitHub에서 소스 코드 체크아웃
@@ -69,6 +70,7 @@ pipeline {
                 expression { env.FRONTEND_CHANGED == 'true' }
             }
             steps {
+//                 application.yml처럼 credentials 파일 필요하면 추가
                 dir('frontend') {
                     sh "npm run build"
                 }
@@ -100,36 +102,43 @@ pipeline {
             }
         }
         // Deployment
-//         stage('Deployment') {
-//             steps {
-//                 container('kubectl') {
-//                     script() {
-//                         def isDeploy = input(
-//                             id: 'deploy',
-//                             message: '배포하시겠습니까?',
-//                             parameters: [
-//                                 [$class: 'BooleanParameterDefinition', defaultValue: false, description: '', name: '배포를 하려면 체크해 주세요.']
-//                             ]
-//                         )
-//
-//                         if (isDeploy) {
-//                             def dockerImageTag = "${env.BUILD_NUMBER}"
-//                             echo "DockerImageTag : ${dockerImageTag}"
-//                             sh '/builder/kubectl version'
-//                             sh '/builder/kubectl get po'
-//                             sh 'kubectl set image deployment frontend-deployment frontend-container=$DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG -n default'
-//                         }
-//                     }
-//                 }
-//             }
-//         }
+        stage('Deployment') {
+            steps {
+                container('kubectl') {
+                    script {
+                        sh 'kubectl version'
+                        sh 'kubectl get po'
+                        sh 'kubectl set image deployment frontend-deployment backend-container=$DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG -n default'
+                    }
+                }
+            }
+        }
     }
+    // Discord Webhook
     post {
         success {
-            echo 'Frontend application successfully built and Docker image pushed!'
+            withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
+                discordSend description: """
+                제목 : ${currentBuild.displayName}
+                결과 : ${currentBuild.result}
+                실행 시간 : ${currentBuild.duration / 1000}s
+                """,
+                result: currentBuild.currentResult,
+                title: "${env.JOB_NAME} : ${currentBuild.displayName} 성공",
+                webhookURL: "${DISCORD}"
+            }
         }
         failure {
-            echo 'Failed to build or push Docker image.'
+            withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
+                discordSend description: """
+                제목 : ${currentBuild.displayName}
+                결과 : ${currentBuild.result}
+                실행 시간 : ${currentBuild.duration / 1000}s
+                """,
+                result: currentBuild.currentResult,
+                title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패",
+                webhookURL: "${DISCORD}"
+            }
         }
     }
 }
