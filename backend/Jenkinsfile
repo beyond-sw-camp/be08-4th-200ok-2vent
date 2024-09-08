@@ -96,32 +96,29 @@ pipeline {
         }
     }
     post {
-        // success {
-        //     echo 'Backend application successfully built and Docker image pushed!'
-        // }
-        // failure {
-        //     echo 'Failed to build or push Docker image.'
-        // }
-
         success {
-            discordSend(
-                description: "
-                제목 : ${currentBuild.displayName}\n
-                결과 : ${currentBuild.result}\n
-                실행 시간 : ${currentBuild.duration / 1000}s\n
-                "
-                ,
-                link: env.BUILD_URL, result: currentBuild.currentResult, 
+            withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
+                discordSend description: """
+                제목 : ${currentBuild.displayName}
+                결과 : ${currentBuild.result}
+                실행 시간 : ${currentBuild.duration / 1000}s
+                """,
+                result: currentBuild.currentResult,
                 title: "${env.JOB_NAME} : ${currentBuild.displayName} 성공", 
-                webhookURL: "${WEBHOOK_URL}"
-            )
+                webhookURL: "${DISCORD}"
+            }
         }
         failure {
-            discordSend(
-                description: "빌드가 실패했습니다.",
-                title: "${env.JOB_NAME} 빌드 실패",
-                webhookURL: "${WEBHOOK_URL}"
-            )
+            withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
+                discordSend description: """
+                제목 : ${currentBuild.displayName}
+                결과 : ${currentBuild.result}
+                실행 시간 : ${currentBuild.duration / 1000}s
+                """,
+                result: currentBuild.currentResult,
+                title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패", 
+                webhookURL: "${DISCORD}"
+            }
         }
     }
     
