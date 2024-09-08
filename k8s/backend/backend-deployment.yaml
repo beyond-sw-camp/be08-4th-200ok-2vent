@@ -30,19 +30,4 @@ spec: # 세부 설정
               cpu: "2000m" # CPU 제한 설정
           ports:
           - containerPort: 8080
-          readinessProbe: # 파드 준비 상태 검사 설정
-            httpGet: # HTTP GET 요청을 사용하여 검사
-              path: /actuator/health # 검사할 경로 설정
-              port: 8080 # 검사할 포트 설정
-              scheme: HTTP
-            initialDelaySeconds: 10 # 검사 시작 대기 시간 설정
-            periodSeconds: 2 # 검사 주기 설정
-            successThreshold: 3 # 성공 임계값 설정
-            timeoutSeconds: 60
-          # livenessProbe: # 파드 실행 상태 검사 설정
-          #   httpGet: # HTTP GET 요청을 사용하여 검사
-          #     path: /product/list/1/1 # 검사할 경로 설정
-          #     port: 30080 # 검사할 포트 설정
-          #   initialDelaySeconds: 20 # 검사 시작 대기 시간 설정
-          #   periodSeconds: 10   # 검사 주기 설정
       terminationGracePeriodSeconds: 5 # 파드 종료까지의 대기 시간 설정
