@@ -84,9 +84,9 @@ pipeline {
                                 sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                             }
 
-                            sh 'docker build --no-cache -t $DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG ./'
-                            sh 'docker image inspect $DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG'
-                            sh 'docker push $DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG'
+                            sh 'docker build --no-cache -t front:$DOCKER_IMAGE_TAG ./'
+                            sh 'docker image inspect front:$DOCKER_IMAGE_TAG'
+                            sh 'docker push $DOCKER_HUB_REPO/front:$DOCKER_IMAGE_TAG'
 
                             sh 'docker logout'
                         }
