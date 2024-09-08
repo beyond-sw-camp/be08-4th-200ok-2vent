@@ -2,6 +2,7 @@
 FROM nginx:latest
 
 # dist 폴더 내 파일들을 컨테이너 내의 nginx 서버에 복사
+ADD ./dist/assets /usr/share/nginx/html
 ADD ./dist/css /usr/share/nginx/html/css
 ADD ./dist/fonts /usr/share/nginx/html/fonts
 ADD ./dist/img /usr/share/nginx/html/img
