@@ -14,15 +14,15 @@ pipeline {
                 volumeMounts:
                 - name: docker-socket
                   mountPath: "/var/run/docker.sock"
-              volumes:
-              - name: docker-socket
-                hostPath:
-                  path: "/var/run/docker.sock"
               - name: kubectl
                 image: gcr.io/cloud-builders/kubectl
                 command:
                 - cat
                 tty: true
+              volumes:
+              - name: docker-socket
+                hostPath:
+                  path: "/var/run/docker.sock"
             '''
         }
     }
