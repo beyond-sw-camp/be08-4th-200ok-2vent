@@ -60,15 +60,16 @@ pipeline {
             }
             steps {
                 sh """
+                cd ./backend/src/main/resources
                     echo '02. Database :: UserName, Password Setting\'
-                    sed -i "s/$DB_USERNAME/${params.DB_USERNAME}/" "./backend/src/main/resources/application.yml"
-                    sed -i "s/\${DB_PASSWORD}/${params.DB_PASSWORD}/" "./backend/src/main/resources/application.yml"
+                    sed -i "s/$DB_USERNAME/${params.DB_USERNAME}/" "application.yml"
+                    sed -i "s/\${DB_PASSWORD}/${params.DB_PASSWORD}/" "application.yml"
 
                     echo '03. Database :: IP, Port, Name, Opt Setting\'
-                    sed -i "s/\${DB_IP}/${params.DB_IP}/" "./backend/src/main/resources/application.yml"
-                    sed -i "s/\${DB_PORT}/${params.DB_PORT}/" "./backend/src/main/resources/application.yml"
-                    sed -i "s/\${DB_NAME}/${params.DB_NAME}/" "./backend/src/main/resources/application.yml"
-                    sed -i "s/\${DB_OPT}/${params.DB_OPT}/" "./backend/src/main/resources/application.yml"
+                    sed -i "s/\${DB_IP}/${params.DB_IP}/" "application.yml"
+                    sed -i "s/\${DB_PORT}/${params.DB_PORT}/" "application.yml"
+                    sed -i "s/\${DB_NAME}/${params.DB_NAME}/" "application.yml"
+                    sed -i "s/\${DB_OPT}/${params.DB_OPT}/" "application.yml"
 
                 """
                 sh """
