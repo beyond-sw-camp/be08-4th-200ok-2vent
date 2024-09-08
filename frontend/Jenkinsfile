@@ -108,7 +108,7 @@ pipeline {
                     script {
                         sh 'kubectl version'
                         sh 'kubectl get po'
-                        sh 'kubectl set image deployment frontend-deployment backend-container=$DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG -n default'
+                        sh 'kubectl set image deployment frontend-deployment frontend-container=$DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG -n default'
                     }
                 }
             }
@@ -117,6 +117,9 @@ pipeline {
     // Discord Webhook
     post {
         success {
+            when {
+                expression { env.FRONTEND_CHANGED == 'true' }
+            }
             withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
                 discordSend description: """
                 제목 : ${currentBuild.displayName}
