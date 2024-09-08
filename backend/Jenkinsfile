@@ -102,22 +102,22 @@ pipeline {
         // failure {
         //     echo 'Failed to build or push Docker image.'
         // }
-        post {
-    success {
-        discordSend(
-            description: "빌드가 성공적으로 완료되었습니다!",
-            title: "${env.JOB_NAME} 빌드 성공",
-            webhookURL: "${WEBHOOK_URL}"
-        )
-    }
-    failure {
-        discordSend(
-            description: "빌드가 실패했습니다.",
-            title: "${env.JOB_NAME} 빌드 실패",
-            webhookURL: "${WEBHOOK_URL}"
-        )
-    }
-}
+
+            success {
+                discordSend(
+                    description: "빌드가 성공적으로 완료되었습니다!",
+                    title: "${env.JOB_NAME} 빌드 성공",
+                    webhookURL: "${WEBHOOK_URL}"
+                )
+            }
+            failure {
+                discordSend(
+                    description: "빌드가 실패했습니다.",
+                    title: "${env.JOB_NAME} 빌드 실패",
+                    webhookURL: "${WEBHOOK_URL}"
+                )
+            }
+        
 
     }
     
