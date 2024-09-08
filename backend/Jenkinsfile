@@ -14,6 +14,11 @@ pipeline {
                 volumeMounts:
                 - name: docker-socket
                   mountPath: "/var/run/docker.sock"
+              - name: kubectl
+                image: gcr.io/cloud-builders/kubectl
+                command:
+                - cat
+                tty: true
               volumes:
               - name: docker-socket
                 hostPath:
@@ -95,9 +100,11 @@ pipeline {
             }
         }
         stage('deploy') {
-            steps {
-                sh 'sed -i "s/TAG/&DOCKER_IMAGE_TAG/g" ./k8s/backend/backend-deployment.yaml'
-                sh 'kubectl -f ./k8s/backend'
+            container('kubectl'){
+                steps {
+                    sh 'sed -i "s/TAG/&DOCKER_IMAGE_TAG/g" ./k8s/backend/backend-deployment.yaml'
+                    sh 'kubectl -f ./k8s/backend'
+                }
             }
         }
     }
