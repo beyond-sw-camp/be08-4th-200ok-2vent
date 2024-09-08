@@ -1,0 +1,104 @@
+pipeline {
+    agent {
+        kubernetes {
+            yaml '''
+            apiVersion: v1
+            kind: Pod
+            spec:
+              containers:
+              - name: docker
+                image: docker:27.2.0-alpine3.20
+                command:
+                - cat
+                tty: true
+                volumeMounts:
+                - name: docker-socket
+                  mountPath: "/var/run/docker.sock"
+              volumes:
+              - name: docker-socket
+                hostPath:
+                  path: "/var/run/docker.sock"
+            '''
+        }
+    }
+    // 환경 변수
+    environment {
+        DOCKER_HUB_REPO = 'sjpark08/be08-4th-2team-backend'// -> ${도커허브 아이디}/{레포지토리 이름}
+        DOCKER_IMAGE_TAG = "0.${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
+    }
+    stages {
+        // GitHub에서 소스 코드 체크아웃
+        stage('Checkout Code from GitHub') {
+            steps {
+                git branch: 'jenkins-sj', 
+                url: 'https://github.com/beyond-sw-camp/be08-4th-2team.git',
+                credentialsId: 'be08-4th-2team-jenkins'
+            }
+        }
+        stage('Check Changes') {
+            steps {
+                script {
+                    def changedFiles = sh(script: 'git diff-tree --no-commit-id --name-only -r $GIT_COMMIT', returnStdout: true).trim().split('\n')
+                    env.BACKEND_CHANGED = changedFiles.any { it.startsWith('backend/') } ? 'true' : 'false'
+                }
+            }
+        }
+        // Build
+        stage('Build Backend') {
+            when {
+                expression { env.BACKEND_CHANGED == 'true' }
+            }
+            steps {
+                withCredentials([file(credentialsId: 'secret', variable: 'dbConfigFile')]) {
+                    script {
+                        sh """
+                            mkdir ./backend/src/main/resources
+                            cp $dbConfigFile ./backend/src/main/resources/application.yml
+                        """
+                    }
+                }
+                sh """
+                    cd ./backend
+                    pwd
+                    ls -la
+                    chmod +x gradlew
+                    ./gradlew build
+                """
+            }
+        }
+        // Build Docker Image
+        stage('Docker Image Build & Push') {
+            when {
+                expression { env.BACKEND_CHANGED == 'true' }
+            }
+            steps {
+                container('docker'){
+                    dir('backend') {
+                        script {
+                            echo "DOCKER_IMAGE_TAG: $DOCKER_IMAGE_TAG"
+                            sh 'docker logout'
+
+                            withCredentials([usernamePassword(credentialsId: 'dockerhub_access', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD' )]) {
+                                sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                            }
+
+                                sh 'docker build --no-cache -t $DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG ./'
+                                sh 'docker image inspect $DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG'
+                                sh 'docker push $DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG'
+
+                            sh 'docker logout'
+                        }
+                    }
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Backend application successfully built and Docker image pushed!'
+        }
+        failure {
+            echo 'Failed to build or push Docker image.'
+        }
+    }
+}
