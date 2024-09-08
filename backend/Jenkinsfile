@@ -115,7 +115,7 @@ pipeline {
                             // sh 'kubectl get po'
 
                             withEnv(["DOCKER_IMAGE_TAG=0.${dockerImageTag}"]) {
-                                sh 'kubectl set image deploy backend-deployment backend=$DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG -n default'
+                                sh 'kubectl set image deployment backend-deployment backend-container=$DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG -n default'
                             }
                         }
                     }
