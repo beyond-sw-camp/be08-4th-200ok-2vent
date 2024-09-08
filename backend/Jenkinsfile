@@ -42,6 +42,7 @@ pipeline {
                     def changedFiles = sh(script: 'git diff-tree --no-commit-id --name-only -r $GIT_COMMIT', returnStdout: true).trim().split('\n')
                     env.BACKEND_CHANGED = changedFiles.any { it.startsWith('backend/') } ? 'true' : 'false'
                 }
+                sh 'echo $WEBHOOK_URL'
             }
         }
         // Build
