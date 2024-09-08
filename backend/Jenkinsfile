@@ -91,14 +91,7 @@ pipeline {
                 }
             }
         }
-        stage('deploy') {
-            steps {
-                container('kubectl'){
-                    sh 'sed -i "s/TAG/&DOCKER_IMAGE_TAG/g" ./k8s/backend/backend-deployment.yaml'
-                    sh 'kubectl apply -f ./k8s/backend'
-                }
-            }
-        }
+        
     }
 
     post {
