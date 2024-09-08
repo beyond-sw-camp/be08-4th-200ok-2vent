@@ -14,6 +14,11 @@ pipeline {
                 volumeMounts:
                 - name: docker-socket
                   mountPath: "/var/run/docker.sock"
+              - name: kubectl
+                image: gcr.io/cloud-builders/kubectl
+                command:
+                - cat
+                tty: true
               volumes:
               - name: docker-socket
                 hostPath:
@@ -25,6 +30,7 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = 'sjpark08/be08-4th-2team-backend'// -> ${도커허브 아이디}/{레포지토리 이름}
         DOCKER_IMAGE_TAG = "0.${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
+        WEBHOOK_URL = credentials('discord_webhook')
     }
     stages {
         // GitHub에서 소스 코드 체크아웃
@@ -35,14 +41,7 @@ pipeline {
                 credentialsId: 'be08-4th-2team-jenkins'
             }
         }
-        stage('Check Changes') {
-            steps {
-                script {
-                    def changedFiles = sh(script: 'git diff-tree --no-commit-id --name-only -r $GIT_COMMIT', returnStdout: true).trim().split('\n')
-                    env.BACKEND_CHANGED = changedFiles.any { it.startsWith('backend/') } ? 'true' : 'false'
-                }
-            }
-        }
+        
         // Build
         stage('Build Backend') {
             when {
@@ -92,13 +91,41 @@ pipeline {
                 }
             }
         }
+        stage('deploy') {
+            steps {
+                container('kubectl'){
+                    sh 'sed -i "s/TAG/&DOCKER_IMAGE_TAG/g" ./k8s/backend/backend-deployment.yaml'
+                    sh 'kubectl apply -f ./k8s/backend'
+                }
+            }
+        }
     }
+
     post {
         success {
-            echo 'Backend application successfully built and Docker image pushed!'
+            withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
+                discordSend description: """
+                제목 : ${currentBuild.displayName}
+                결과 : ${currentBuild.result}
+                실행 시간 : ${currentBuild.duration / 1000}s
+                """,
+                result: currentBuild.currentResult,
+                title: "${env.JOB_NAME} : ${currentBuild.displayName} 성공", 
+                webhookURL: "${DISCORD}"
+            }
         }
         failure {
-            echo 'Failed to build or push Docker image.'
+            withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
+                discordSend description: """
+                제목 : ${currentBuild.displayName}
+                결과 : ${currentBuild.result}
+                실행 시간 : ${currentBuild.duration / 1000}s
+                """,
+                result: currentBuild.currentResult,
+                title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패", 
+                webhookURL: "${DISCORD}"
+            }
         }
     }
+    
 }
