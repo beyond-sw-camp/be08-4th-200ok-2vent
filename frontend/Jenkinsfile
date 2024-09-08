@@ -117,9 +117,6 @@ pipeline {
     // Discord Webhook
     post {
         success {
-            when {
-                expression { env.FRONTEND_CHANGED == 'true' }
-            }
             withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
                 discordSend description: """
                 제목 : ${currentBuild.displayName}

@@ -1,9 +1,7 @@
-apiVersion: autoscaling/v2 # 사용할 Kubernetes API 버전
+apiVersion: autoscaling/v2beta2 # 사용할 Kubernetes API 버전
 kind: HorizontalPodAutoscaler # 리소스의 종류: HPA
-
 metadata: # 리소스의 메타데이터 설정
   name: frontend-hpa # HPA의 이름
-
 spec: # 세부 설정
   scaleTargetRef: # 자동 스케일링 대상 설정
     apiVersion: apps/v1 # 대상 리소스의 API 버전 설정
