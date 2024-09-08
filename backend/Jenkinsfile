@@ -25,7 +25,7 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = 'sjpark08/be08-4th-2team-backend'// -> ${도커허브 아이디}/{레포지토리 이름}
         DOCKER_IMAGE_TAG = "0.${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
-        WEBHOOK_URL = credentials("discord_webhook")
+        WEBHOOK_URL = credentials('discord_webhook')
     }
     stages {
         // GitHub에서 소스 코드 체크아웃
@@ -102,36 +102,23 @@ pipeline {
         // failure {
         //     echo 'Failed to build or push Docker image.'
         // }
-        success {
-            script {
-                def webhookUrl = "${WEBHOOK_URL}"
-                def message = [
-                    'content': "빌드가 성공적으로 완료되었습니다!",
-                    'embeds': [[
-                        'title': "${env.JOB_NAME} 빌드 성공",
-                        'description': "제목 : ${currentBuild.displayName}\n결과 : ${currentBuild.result}\n실행 시간 : ${currentBuild.duration / 1000}s",
-                        'url': env.BUILD_URL
-                    ]]
-                ]
-                def jsonMessage = groovy.json.JsonOutput.toJson(message)
-                sh "curl -H 'Content-Type: application/json' -X POST -d '${jsonMessage}' ${webhookUrl}"
-            }
-        }
-        failure {
-            script {
-                def webhookUrl = "${WEBHOOK_URL}"
-                def message = [
-                    'content': "빌드가 실패했습니다.",
-                    'embeds': [[
-                        'title': "${env.JOB_NAME} 빌드 실패",
-                        'description': "제목 : ${currentBuild.displayName}\n결과 : ${currentBuild.result}\n실행 시간 : ${currentBuild.duration / 1000}s",
-                        'url': env.BUILD_URL
-                    ]]
-                ]
-                def jsonMessage = groovy.json.JsonOutput.toJson(message)
-                sh "curl -H 'Content-Type: application/json' -X POST -d '${jsonMessage}' ${webhookUrl}"
-            }
-        }
+        post {
+    success {
+        discordSend(
+            description: "빌드가 성공적으로 완료되었습니다!",
+            title: "${env.JOB_NAME} 빌드 성공",
+            webhookURL: "${WEBHOOK_URL}"
+        )
+    }
+    failure {
+        discordSend(
+            description: "빌드가 실패했습니다.",
+            title: "${env.JOB_NAME} 빌드 실패",
+            webhookURL: "${WEBHOOK_URL}"
+        )
+    }
+}
+
     }
     
 }
