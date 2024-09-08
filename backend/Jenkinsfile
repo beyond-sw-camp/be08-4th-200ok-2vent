@@ -60,6 +60,18 @@ pipeline {
             }
             steps {
                 sh """
+                    echo '02. Database :: UserName, Password Setting\'
+                    sed -i "s/\${DB_USERNAME}/${DB_USERNAME}/" "${WORKSPACE}/src/main/resources/application.yml"
+                    sed -i "s/\${DB_PASSWORD}/${DB_PASSWORD}/" "${WORKSPACE}/src/main/resources/application.yml"
+
+                    echo '03. Database :: IP, Port, Name, Opt Setting\'
+                    sed -i "s/\${DB_IP}/${DB_IP}/" "${WORKSPACE}/src/main/resources/application.yml"
+                    sed -i "s/\${DB_PORT}/${DB_PORT}/" "${WORKSPACE}/src/main/resources/application.yml"
+                    sed -i "s/\${DB_NAME}/${DB_NAME}/" "${WORKSPACE}/src/main/resources/application.yml"
+                    sed -i "s/\${DB_OPT}/${DB_OPT}/" "${WORKSPACE}/src/main/resources/application.yml"
+
+                """
+                sh """
                     cd ./backend
                     pwd
                     ls -la
