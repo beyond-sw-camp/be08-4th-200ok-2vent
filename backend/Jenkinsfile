@@ -24,7 +24,7 @@ pipeline {
     // 환경 변수
     environment {
         DOCKER_HUB_REPO = 'sjpark08/be08-4th-2team-backend'// -> ${도커허브 아이디}/{레포지토리 이름}
-        DOCKER_IMAGE_TAG = "${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
+        DOCKER_IMAGE_TAG = "0.${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
     }
     stages {
         // Docker가 설치되어 있는지 확인
@@ -95,7 +95,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         success {
             echo 'Backend application successfully built and Docker image pushed!'
