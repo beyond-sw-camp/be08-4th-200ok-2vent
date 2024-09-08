@@ -14,6 +14,11 @@ pipeline {
                 volumeMounts:
                 - name: docker-socket
                   mountPath: "/var/run/docker.sock"
+              - name: kubectl
+                image: gcr.io/cloud-builders/kubectl
+                command:
+                - cat
+                tty: true
               volumes:
               - name: docker-socket
                 hostPath:
@@ -27,8 +32,8 @@ pipeline {
     }
 
     environment {
-        DOCKER_HUB_REPO = 'sjpark08/be08-4th-2team-frontend' // -> ${도커허브 아이디}/{레포지토리 이름}
-        DOCKER_IMAGE_TAG = "0.${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
+        DOCKER_HUB_REPO = 'henhen7/be08-4th-2team' // -> ${도커허브 아이디}/{레포지토리 이름}
+        DOCKER_IMAGE_TAG = "1.${env.BUILD_NUMBER}-fe" // Jenkins에서 자동으로 생성
     }
     stages {
         // GitHub에서 소스 코드 체크아웃
@@ -94,7 +99,31 @@ pipeline {
                 }
             }
         }
-    } 
+        // Deployment
+        stage('Deployment') {
+            steps {
+                container('kubectl') {
+                    script() {
+                        def isDeploy = input(
+                            id: 'deploy',
+                            message: '배포하시겠습니까?',
+                            parameters: [
+                                [$class: 'BooleanParameterDefinition', defaultValue: false, description: '', name: '배포를 하려면 체크해 주세요.']
+                            ]
+                        )
+
+                        if (isDeploy) {
+                            def dockerImageTag = "${env.BUILD_NUMBER}"
+                            echo "DockerImageTag : ${dockerImageTag}"
+                            sh '/builder/kubectl version'
+                            sh '/builder/kubectl get po'
+//                             sh 'kubectl set image deploy department-deploy department=$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG -n default'
+                        }
+                    }
+                }
+            }
+        }
+    }
     post {
         success {
             echo 'Frontend application successfully built and Docker image pushed!'
