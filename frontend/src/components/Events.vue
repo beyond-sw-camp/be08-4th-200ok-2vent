@@ -59,7 +59,7 @@ import { useRouter } from 'vue-router';
 import scrapUnCheck from '../assets/images/scrap_uncheck.png';
 import scrapCheck from '../assets/images/scrap_check.png';
 
-const baseUrl = 'http://localhost:8080/v1/api/event';
+const baseUrl = 'http://localhost:30080/v1/api/event';
 
 export default {
     name: 'Events',
