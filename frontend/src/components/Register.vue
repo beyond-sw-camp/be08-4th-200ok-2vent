@@ -60,7 +60,7 @@
 
  const loginApi = async()=>{
     try{
-        const res = await axios.post('http://localhost:8080/v1/api/member/register',{
+        const res = await axios.post('http://localhost:30080/v1/api/member/register',{
             email:email.value,
             password:password.value,
             name:name.value,

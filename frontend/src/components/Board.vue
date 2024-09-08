@@ -105,7 +105,7 @@ const router = useRouter();
 // 서버에서 게시물 목록 로드
 const loadPosts = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/v1/api/post/list', {
+    const response = await axios.get('http://localhost:30080/v1/api/post/list', {
       params: {
         page: currentPage.value - 1, 
         size: postsPerPage.value,
@@ -159,7 +159,7 @@ const handlePageChange = (page) => {
 const incrementViews = async (postId) => {
   try {
     const post = posts.value.find(post => post.id === postId);
-    await axios.put(`http://localhost:8080/v1/api/post/update/${postId}`, {
+    await axios.put(`http://localhost:30080/v1/api/post/update/${postId}`, {
       views: post.views + 1
     });
 

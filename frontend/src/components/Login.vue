@@ -46,7 +46,7 @@ import { useRouter } from 'vue-router';
 
   const loginApi = async()=>{
     try{
-      axios.post('http://localhost:8080/v1/api/member/login',{
+      axios.post('http://localhost:30080/v1/api/member/login',{
       email:email.value,
       password:password.value,
 

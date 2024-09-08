@@ -134,7 +134,7 @@ export default {
     async loadUserPosts() {
       try {
         // 서버에 해당 회원이 작성한 게시물을 요청
-        const response = await axios.get(`http://localhost:8080/v1/api/member/list/post/${this.userInfo.no}`);
+        const response = await axios.get(`http://localhost:30080/v1/api/member/list/post/${this.userInfo.no}`);
         this.posts = response.data;
       } catch (error) {
         console.error("게시물 로딩 중 오류 발생:", error);
@@ -142,7 +142,7 @@ export default {
     },
 
     async loadUserWishes() {
-      const response = await axios.get(`http://localhost:8080/v1/api/member/list/wish/${this.userInfo.no}`);
+      const response = await axios.get(`http://localhost:30080/v1/api/member/list/wish/${this.userInfo.no}`);
       this.events = response.data;
     }
   },

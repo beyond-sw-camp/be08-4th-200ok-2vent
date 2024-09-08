@@ -68,7 +68,7 @@
 
     const scrapApi = async(memberNo,eventNo)=>{
         try{
-            await axios.post('http://localhost:8080/v1/api/wish/register',{
+            await axios.post('http://localhost:30080/v1/api/wish/register',{
                 memberNo,
                 eventNo
             }).then((res)=>{
