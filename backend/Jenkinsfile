@@ -96,7 +96,7 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                sh 'sed -i "s/TAG/&DOCKER_IMAGE_TAG/g" ./k8s/backend/backend-deployment.yml'
+                sh 'sed -i "s/TAG/&DOCKER_IMAGE_TAG/g" ./k8s/backend/backend-deployment.yaml'
                 sh 'kubectl -f ./k8s/backend'
             }
         }
