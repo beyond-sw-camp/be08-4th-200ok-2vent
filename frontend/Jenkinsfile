@@ -29,6 +29,7 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = 'sjpark08/be08-4th-2team-frontend' // -> ${도커허브 아이디}/{레포지토리 이름}
         DOCKER_IMAGE_TAG = "0.${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
+        WEBHOOK_URL = credentials('discord_webhook')
     }
     stages {
         // GitHub에서 소스 코드 체크아웃
@@ -95,12 +96,31 @@ pipeline {
             }
         }
     } 
+    
     post {
         success {
-            echo 'Frontend application successfully built and Docker image pushed!'
+            withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
+                discordSend description: """
+                제목 : ${currentBuild.displayName}
+                결과 : ${currentBuild.result}
+                실행 시간 : ${currentBuild.duration / 1000}s
+                """,
+                result: currentBuild.currentResult,
+                title: "${env.JOB_NAME} : ${currentBuild.displayName} 성공", 
+                webhookURL: "${DISCORD}"
+            }
         }
         failure {
-            echo 'Failed to build or push Docker image.'
+            withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
+                discordSend description: """
+                제목 : ${currentBuild.displayName}
+                결과 : ${currentBuild.result}
+                실행 시간 : ${currentBuild.duration / 1000}s
+                """,
+                result: currentBuild.currentResult,
+                title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패", 
+                webhookURL: "${DISCORD}"
+            }
         }
     }
 }
