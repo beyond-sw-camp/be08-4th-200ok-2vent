@@ -94,39 +94,10 @@ pipeline {
                 }
             }
         }
-        stage('SSH transfer') {
+        stage('deploy') {
             steps {
-                // SSH 전송 플러그인 사용
-                sshPublisher(
-                    // 오류 발생 시 진행을 멈춤
-                    continueOnError: false, 
-                    // 오류 발생 시 파이프라인을 실패시킴
-                    failOnError: true,
-                    // 전송자 목록
-                    publishers: [
-                        // SSH 전송 설명
-                        sshPublisherDesc(
-                            // SSH 서버 설정 이름 지정 ( master 노드 )
-                            configName: "k8s-master",
-                            // 자세한 출력 모드 활성화
-                            verbose: true,
-                            transfers: [
-                                sshTransfer(
-                                    // 전송할 파일 지정
-                                    sourceFiles: "backend-deployment.yml",
-                                    // 원격 디렉토리 지정 ( 원격서버로 파일을 전송할 위치 )
-                                    remoteDirectory: "/root/",
-                                    // 전송 후 야멜 파일의 VERSION을 파이프라인 빌드 숫자로 변경
-                                    // backend-deployment 야멜 파일 실행
-                                    execCommand: '''
-                                        sed -i "s/VERSION/$BUILD_ID/g" /root/backend-deployment.yml
-                                        kubectl apply -f /root/backend-deployment.yml
-                                    '''
-                                )
-                            ]
-                        )
-                    ]
-                )
+                sh 'sed -i "s/TAG/&DOCKER_IMAGE_TAG/g" ./k8s/backend/backend-deployment.yml'
+                sh 'kubectl -f ./k8s/backend'
             }
         }
     }
