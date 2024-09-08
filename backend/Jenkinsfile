@@ -60,10 +60,11 @@ pipeline {
             }
             steps {
                 sh """
-                    cd ./backend/src/main
-                    ls -al
+                    mkdir ./backend/src/main/resources
+                    cd ./backend/src/main/resources
+                    sh 'cp $dbConfigFile application.yml'
                     echo '02. Database :: UserName, Password Setting\'
-                    sed -i "s/$DB_USERNAME/${params.DB_USERNAME}/" "./resources/application.yml"
+                    sed -i "s/$DB_USERNAME/${params.DB_USERNAME}/" "application.yml"
                     sed -i "s/\${DB_PASSWORD}/${params.DB_PASSWORD}/" "application.yml"
 
                     echo '03. Database :: IP, Port, Name, Opt Setting\'
