@@ -18,13 +18,18 @@ pipeline {
               - name: docker-socket
                 hostPath:
                   path: "/var/run/docker.sock"
+              - name: kubectl
+                image: gcr.io/cloud-builders/kubectl
+                command:
+                - cat
+                tty: true
             '''
         }
     }
     // 환경 변수
     environment {
         DOCKER_HUB_REPO = 'henhen7/be08-4th-2team'// -> ${도커허브 아이디}/{레포지토리 이름}
-        DOCKER_IMAGE_TAG = "${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
+        DOCKER_IMAGE_TAG = "1.${env.BUILD_NUMBER}-be" // Jenkins에서 자동으로 생성
     }
     stages {
         // Docker가 설치되어 있는지 확인
@@ -89,6 +94,30 @@ pipeline {
                                 sh 'docker push $DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG'
 
                             sh 'docker logout'
+                        }
+                    }
+                }
+            }
+        }
+        // Deployment
+        stage('Deployment') {
+            steps {
+                container('kubectl') {
+                    script() {
+                        def isDeploy = input(
+                            id: 'deploy',
+                            message: '배포하시겠습니까?',
+                            parameters: [
+                                [$class: 'BooleanParameterDefinition', defaultValue: false, description: '', name: '배포를 하려면 체크해 주세요.']
+                            ]
+                        )
+
+                        if (isDeploy) {
+                            def dockerImageTag = "${env.BUILD_NUMBER}"
+                            echo "DockerImageTag : ${dockerImageTag}"
+                            sh 'kubectl version'
+                            sh 'kubectl get po'
+//                             sh 'kubectl set image deploy department-deploy department=$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG -n default'
                         }
                     }
                 }
