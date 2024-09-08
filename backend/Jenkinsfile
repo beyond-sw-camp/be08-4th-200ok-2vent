@@ -59,6 +59,12 @@ pipeline {
                 expression { env.BACKEND_CHANGED == 'true' }
             }
             steps {
+                withCredentials([file(credentialsId: 'db-credentials', variable: 'dbConfigFile')]) {
+                    script {
+                        sh 'cp $dbConfigFile Back-end/api-module/src/main/resources/application-db.yml'
+                        sh 'cp $dbConfigFile Back-end/batch-module/src/main/resources/application-db.yml'
+                    }
+                }
                 sh """
                     mkdir ./backend/src/main/resources
                     cd ./backend/src/main/resources
