@@ -41,6 +41,18 @@ pipeline {
                 credentialsId: 'be08-4th-2team-jenkins'
             }
         }
+
+        stage('Check Changes') {
+            steps {
+                script {
+                    // 변경된 파일 목록 가져오기
+                    def changedFiles = sh(script: 'git diff-tree --no-commit-id --name-only -r $GIT_COMMIT', returnStdout: true).trim().split('\n')
+
+                    // 프론트엔드 디렉터리 변경 감지
+                    env.BACKEND_CHANGED = changedFiles.any { it.startsWith('backend/') } ? 'true' : 'false'
+                }
+            }
+        }
         
         // Build
         stage('Build Backend') {
