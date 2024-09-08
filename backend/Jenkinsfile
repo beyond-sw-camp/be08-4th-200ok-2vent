@@ -25,7 +25,7 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = 'sjpark08/be08-4th-2team-backend'// -> ${도커허브 아이디}/{레포지토리 이름}
         DOCKER_IMAGE_TAG = "0.${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
-        WEBHOOK_URL = credentials("discord-webhook")
+        WEBHOOK_URL = credentials("discord_webhook")
     }
     stages {
         // GitHub에서 소스 코드 체크아웃
@@ -79,7 +79,7 @@ pipeline {
                             echo "DOCKER_IMAGE_TAG: $DOCKER_IMAGE_TAG"
                             sh 'docker logout'
 
-                            withCredentials([usernamePassword(credentialsId: 'dockerhub_access', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD' )]) {
+                            withCredentials([usernamePassword(credentialsI: 'dockerhub_access', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD' )]) {
                                 sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                             }
 
@@ -102,28 +102,19 @@ pipeline {
         //     echo 'Failed to build or push Docker image.'
         // }
         success {
-            discordSend description: """
-            제목 : ${currentBuild.displayName}
-            결과 : ${currentBuild.result}
-            실행 시간 : ${currentBuild.duration / 1000}s
-            """,
-            link: env.BUILD_URL,
-            result: currentBuild.currentResult,
-            title: "${env.JOB_NAME} : ${currentBuild.displayName} 성공",
-            webhookURL: "${WEBHOOK_URL}"
+            discordSend description: "알림테스트", 
+                        footer: "테스트 빌드가 성공쓰.", 
+                        link: env.BUILD_URL, result: currentBuild.currentResult, 
+                        title: "테스트 젠킨스 job", 
+                        webhookURL: env.WEBHOOK_URL
         }
         failure {
-            discordSend description: """
-            제목 : ${currentBuild.displayName}
-            결과 : ${currentBuild.result}
-            실행 시간 : ${currentBuild.duration / 1000}s
-            """,
-            link: env.BUILD_URL,
-            result: currentBuild.currentResult,
-            title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패",
-            webhookURL: "${WEBHOOK_URL}"
+            discordSend description: "알림테스트", 
+                        footer: "에라이 테스트 빌드가 실싪실실패했습니다.", 
+                        link: env.BUILD_URL, result: currentBuild.currentResult, 
+                        title: "테스트 젠킨스 job", 
+                        webhookURL: env.WEBHOOK_URL
         }
-    
     }
     
 }
