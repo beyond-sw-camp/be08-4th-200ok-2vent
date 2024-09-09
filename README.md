@@ -212,7 +212,7 @@ services:
 </details>
 
 <details>
-  <summary>무중단 배포</summary>
+  <summary>무중단 배포(Rolling Update)</summary>
   1️⃣ Backend
   <br>
   
