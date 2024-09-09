@@ -109,22 +109,7 @@
 
 <br><br>
 
-
-
-## 🔧 배포 시나리오
-
-### FRONTEND CODE
- 🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/blob/jenkins-sj/frontend/Jenkinsfile">PIPELINE</a> <br>
- 🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/tree/main/k8s/frontend">k8s</a>
-
-<br>
-
-### BACKEND CODE
- 🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/blob/jenkins-sj/backend/Jenkinsfile">PIPELINE</a> <br>
- 🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/tree/main/k8s/backend">k8s</a>
-
-
-<br>
+## 📚 배포 시나리오
 
 #### 1. 소스 코드 변경 및 Git Push
 
@@ -151,6 +136,49 @@
     - 롤링 업데이트가 적용되어 유저는 중단없이 서비스에 접근 가능
 
 <br><br>
+
+## 🔧 배포 파일
+
+#### FRONTEND CODE
+ 🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/blob/jenkins-sj/frontend/Jenkinsfile">PIPELINE</a> <br>
+ 🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/tree/main/k8s/frontend">k8s</a>
+
+
+#### BACKEND CODE
+ 🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/blob/jenkins-sj/backend/Jenkinsfile">PIPELINE</a> <br>
+ 🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/tree/main/k8s/backend">k8s</a>
+
+
+#### COMPOSE.YAML
+``` YML
+networks:
+  pocket:
+    external: true
+
+services:
+  mysql:
+    image: 'mysql:latest'
+    container_name: '2vent'
+    environment:
+      - 'MYSQL_DATABASE=2vent'
+      - 'MYSQL_PASSWORD=1234'
+      - 'MYSQL_ROOT_HOST='
+      - 'MYSQL_ROOT_PASSWORD=1234'
+      - 'MYSQL_USER=username'
+    ports:
+      - '3306:3306'
+    restart: 'on-failure'
+
+  redis:
+    image: 'redis:latest'
+    container_name: '2vent_redis'
+    ports:
+      - '6379:6379'
+
+```
+
+<br><br>
+
 
 ## ✨ 배포 테스트
 
