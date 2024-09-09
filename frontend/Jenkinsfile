@@ -31,11 +31,13 @@ pipeline {
             '''
         }
     }
+
     environment {
         DOCKER_HUB_REPO = 'henhen7/be08-4th-2team'
         DOCKER_IMAGE_TAG = "1.${env.BUILD_NUMBER}-fe"
         WEBHOOK_URL = credentials('discord_webhook')
     }
+    
     stages {
         stage('Checkout Code from GitHub') {
             steps {
@@ -106,6 +108,7 @@ pipeline {
             }
         }
     }
+    
     post {
         success {
             withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
