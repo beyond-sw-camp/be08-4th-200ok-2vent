@@ -31,52 +31,32 @@ pipeline {
             '''
         }
     }
-
-//     tools {
-//         nodejs 'NodeJS 22.8.0'
-//     }
-
     environment {
-        DOCKER_HUB_REPO = 'henhen7/be08-4th-2team' // -> ${도커허브 아이디}/{레포지토리 이름}
-        DOCKER_IMAGE_TAG = "1.${env.BUILD_NUMBER}-fe" // Jenkins에서 자동으로 생성
+        DOCKER_HUB_REPO = 'henhen7/be08-4th-2team'
+        DOCKER_IMAGE_TAG = "1.${env.BUILD_NUMBER}-fe"
         WEBHOOK_URL = credentials('discord_webhook')
     }
     stages {
-        // GitHub에서 소스 코드 체크아웃
         stage('Checkout Code from GitHub') {
             steps {
-                git branch: 'jenkins-back',
-                url: 'https://github.com/beyond-sw-camp/be08-4th-2team.git',
-                credentialsId: 'be08-4th-2team-jenkins'
+                git branch: 'main',
+                url: 'https://github.com/beyond-sw-camp/be08-4th-200ok-2vent.git'
             }
         }
-
         stage('Check Changes') {
             steps {
                 script {
-                    // 변경된 파일 목록 가져오기
                     def changedFiles = sh(script: 'git diff-tree --no-commit-id --name-only -r $GIT_COMMIT', returnStdout: true).trim().split('\n')
-
-                    // 프론트엔드 디렉터리 변경 감지
                     env.FRONTEND_CHANGED = changedFiles.any { it.startsWith('frontend/') } ? 'true' : 'false'
                 }
             }
         }
-
-//         stage('Install Dependencies') {
-//             steps {
-//                 dir('frontend') {
-//                     sh "npm install"
-//                 }
-//             }
-//         }
         stage('Build Frontend') {
             when {
                 expression { env.FRONTEND_CHANGED == 'true' }
             }
             steps {
                 container('nodejs') {
-//                 application.yml처럼 credentials 파일 필요하면 추가
                     dir('frontend') {
                         sh """
                         npm install
@@ -111,7 +91,6 @@ pipeline {
                 }
             }
         }
-        // Deployment
         stage('Deployment') {
             when {
                 expression { env.FRONTEND_CHANGED == 'true' }
@@ -127,7 +106,6 @@ pipeline {
             }
         }
     }
-    // Discord Webhook
     post {
         success {
             withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {

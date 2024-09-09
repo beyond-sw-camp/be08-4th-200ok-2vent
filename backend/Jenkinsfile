@@ -26,19 +26,16 @@ pipeline {
             '''
         }
     }
-    // 환경 변수
     environment {
-        DOCKER_HUB_REPO = 'henhen7/be08-4th-2team'// -> ${도커허브 아이디}/{레포지토리 이름}
-        DOCKER_IMAGE_TAG = "1.${env.BUILD_NUMBER}-be" // Jenkins에서 자동으로 생성
+        DOCKER_HUB_REPO = 'henhen7/be08-4th-2team'
+        DOCKER_IMAGE_TAG = "1.${env.BUILD_NUMBER}-be"
 	    WEBHOOK_URL = credentials('discord_webhook')
 	}
     stages {
-        // GitHub에서 소스 코드 체크아웃
         stage('Checkout Code from GitHub') {
             steps {
-                git branch: 'jenkins-back',
-                url: 'https://github.com/beyond-sw-camp/be08-4th-2team.git',
-                credentialsId: 'be08-4th-2team-jenkins'
+                git branch: 'main',
+                url: 'https://github.com/beyond-sw-camp/be08-4th-200ok-2vent.git'
             }
         }
         stage('Check Changes') {
@@ -49,7 +46,6 @@ pipeline {
                 }
             }
         }
-        // Build
         stage('Build Backend') {
             when {
                 expression { env.BACKEND_CHANGED == 'true' }
@@ -72,7 +68,6 @@ pipeline {
                 """
             }
         }
-        // Build Docker Image
         stage('Docker Image Build & Push') {
             when {
                 expression { env.BACKEND_CHANGED == 'true' }
@@ -98,7 +93,6 @@ pipeline {
                 }
             }
         }
-        // Deployment
         stage('Deployment') {
             when {
                 expression { env.BACKEND_CHANGED == 'true' }
@@ -114,7 +108,6 @@ pipeline {
             }
         }
     }
-    // Discord Webhook
     post {
         success {
             withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
