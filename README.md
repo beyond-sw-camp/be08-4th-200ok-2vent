@@ -4,7 +4,7 @@
 
 
 <div align="center">
-  <br><b>:dizzy:한화시스템 BEYOND SW캠프 4차 devops 프로젝트:dizzy:</b></br></div>
+  <br><b>:zap:한화시스템 BEYOND SW캠프 4차 devops 프로젝트:zap:</b></br></div>
 
   <br>
   <br>
@@ -15,8 +15,7 @@
 |:-:|:-:|:-:|:-:|:-:|
 |박성준(팀장)<br><a href="https://github.com/sjpark-08"><img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/></a>|김도하<br><a href="https://github.com/esueng"><img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/></a>|서현지<br><a href=https://github.com/henhen7><img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/></a>|전현규<br><a href="https://github.com/ideapple"><img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/></a>|조혜인<br><a href="https://github.com/byHyen"><img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/></a>|
 
-<br>
-<br>
+<br><br>
 
 <div align=center> 
   
@@ -32,15 +31,15 @@
   <img src="https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white"/>
   <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
   <br>
+  <img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
   <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
   <img src="https://img.shields.io/badge/Redis-%23D92B21.svg?style=for-the-badge&logo=redis&logoColor=white"/>
-  <img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
   <img src="https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white"/>
   <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white"/>
+  <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
 
 
-<br>
-<br>
+<br><br>
 
  
  ## ⚙️ Tool ⚙️
@@ -48,36 +47,37 @@
   <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
   <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white">
   <img src= "https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white">
-  <img alt="IntelliJ" src="https://img.shields.io/badge/IntelliJ IDEA-%23FF9900?style=for-the-badge&logo=intellij idea&logoColor=white" />
+  <img src="https://img.shields.io/badge/IntelliJ IDEA-%23FF9900?style=for-the-badge&logo=intellij idea&logoColor=white" />
   <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white"/>
 
 </div>
-<br>
-<br>
 
-## 🍀 프로젝트 소개
-
- 행업튀 : 행사 업고 튀어 (지역 행사 커뮤니티)
-
-🍀 사용자에게 주변과 타 지역의 행사 정보를 쉽고 빠르게 제공하는 서비스
+<br><br>
 
 
-🍀 사용자가 원하는 행사만을 쏙쏙 골라낼 수 있도록 도와줍니다!
+## 💡 프로젝트 소개
+
+ **2VENT(지역 행사 커뮤니티)** <br>
+
+* 사용자에게 주변과 타 지역의 행사 정보를 쉽고 빠르게 제공하는 서비스
 
 
-🍀 지도를 이용해 우리나라 행사들의 위치정보를 알고 싶다면~? 행업튀로 고고!
+* 사용자가 원하는 행사만을 쏙쏙 골라낼 수 있도록 도와줍니다!
 
 
-🍀 지역별! 온라인과 오프라인! 유료와 무료! 등 다양한 조건을 필터링한 결과가 알고 싶다면? 행업튀로 고고!
+* 지도를 이용해 우리나라 행사들의 위치정보를 알고 싶다면~? 행업튀로 고고!
 
 
-🍀 지역별 게시판을 통한 자유로운 소통의 장을 경험하고 싶다면? 행업튀로 고고!
+* 지역별! 온라인과 오프라인! 유료와 무료! 등 다양한 조건을 필터링한 결과가 알고 싶다면? 행업튀로 고고!
 
 
-🍀 다양한 필터 기능을 통해 관심있는 행사만 빠르게 알아봅시다!
+* 지역별 게시판을 통한 자유로운 소통의 장을 경험하고 싶다면? 행업튀로 고고!
 
 
-⭐간편하고 재미있는 행사 탐색, 이제 행업튀와 함께하세요!
+* 다양한 필터 기능을 통해 관심있는 행사만 빠르게 알아봅시다!
+
+
+* 간편하고 재미있는 행사 탐색, 이제 2VENT와 함께하세요!
 
 
 <br>
@@ -98,10 +98,8 @@
 <br> 
 
 ✔ 사용자들은 행사 참여와 정보 교환의 편리함을 경험하고, 지역 사회의 활성화에 기여할 수 있습니다.
+
 <br>
-
-
-
 
 
 ## 📋 시스템 아키텍처
@@ -109,10 +107,7 @@
 
 
 
-<br>
-
-
-
+<br><br>
 
 
 
@@ -155,12 +150,12 @@
 #### 4. 무중단 배포 완료
     - 롤링 업데이트가 적용되어 유저는 중단없이 서비스에 접근 가능
 
-<br>
+<br><br>
 
 ## ✨ 배포 테스트
 
 
-<br>
+<br><br>
 
 
 ## 🐻 회고록
@@ -172,4 +167,4 @@
 |전현규|<br><br>&nbsp;|
 |조혜인|<br><br>&nbsp;|
 
-<br>
+<br><br>
