@@ -1,6 +1,6 @@
 # be08-4th-200ok-2vent
 
-![곧추가할포스터]()
+![곧추가할포스터](https://github.com/user-attachments/assets/fda390d8-4c93-4387-a8ae-22b964dc43ce)
 
 
 <div align="center">
@@ -242,7 +242,7 @@ services:
 <br><br>
 
 
-## 🐻 회고록
+## 🍙 회고록
 |&nbsp;&nbsp;&nbsp;&nbsp;팀&nbsp;원&nbsp;&nbsp;&nbsp;&nbsp;|회고|
 |:----:|----|
 |박성준|<br><br>&nbsp;|
