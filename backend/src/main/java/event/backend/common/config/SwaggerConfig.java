@@ -18,7 +18,7 @@ public class SwaggerConfig {
 
     private Info apiInfo(){
         return new Info()
-                .title("2vent API - TEST")
+                .title("2vent API")
                 .version("1.0")
                 .description("2vent API Server");
     }
