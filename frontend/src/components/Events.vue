@@ -1,7 +1,7 @@
 <template>
     <div class="carousel-wrapper">
         <div class="list">
-            ⭐ 무중단 배포 테스트 완료!
+            ⭐ 지금 현재 사람들이 가장 많이 본 행사!
         </div>
         <Carousel :items-to-show="4.5" :wrap-around="false" :autoplay="false" transition="1000">
             <Slide v-for="event in listByView" :key="event.no"
