@@ -113,6 +113,9 @@ pipeline {
         }
         // Deployment
         stage('Deployment') {
+            when {
+                expression { env.FRONTEND_CHANGED == 'true' }
+            }
             steps {
                 container('kubectl') {
                     script {
