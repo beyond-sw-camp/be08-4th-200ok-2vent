@@ -1,33 +1,33 @@
-apiVersion: apps/v1 # 사용할 Kubernetes API 버전
-kind: Deployment # 리소스의 종류 : Deployment
+apiVersion: apps/v1 
+kind: Deployment 
 
-metadata: # 리소스의 메타데이터 설정
-  name: backend-deployment # Deployment의 이름
+metadata: 
+  name: backend-deployment 
 
-spec: # 세부 설정
-  replicas: 2 # 파드의 복제본 수
-  strategy: # 업데이트 전략 설정
-    type: RollingUpdate # RolingUpdate 방식 사용
-  revisionHistoryLimit: 1 # 리비전 히스토리 제한 설정 ( 기존 버전 몇개를 남겨둘 지 지정)
-  minReadySeconds: 10 # 롤링 업데이트를 위한 최소 준비 시간 설정
-  selector: # 라벨 선택자
-    matchLabels: # 일치하는 라벨 설정
-      type: backend # 라벨의 타입이 'backend'
-  template: # 템플릿 설정
-    metadata: # 템플릿의 메타데이터 설정
-      labels: # 파드에 붙일 라벨 설정
-        type: backend # 라벨의 타입이 'backend'
-    spec: # 세부 설정
-      containers: # 컨테이너 설정
-        - name: backend-container # 컨테이너의 이름
-          image: sjpark08/be08-4th-2team-backend:TAG # 컨테이너에 사용할 이미지 및 이미지 버전 설정
-          resources: # 컨테이너의 리소스 제한 및 요청 설정
-            requests: # 컨테이너가 요청하는 리소스 설정
-              memory: "1024Mi" # 메모리 요청 ( 실제 실행된 파드 참고 설정 )
-              cpu: "600m" # CPU 요청 ( 실제 실행된 파드 참고 설정 )
-            limits: # 컨테이너의 리소스 제한 설정
-              memory: "3Gi" # 메모리 제한 설정
-              cpu: "2000m" # CPU 제한 설정
+spec: 
+  replicas: 2
+  strategy: 
+    type: RollingUpdate 
+  revisionHistoryLimit: 1 
+  minReadySeconds: 10 
+  selector: 
+    matchLabels: 
+      type: backend 
+  template: 
+    metadata:
+      labels: 
+        type: backend 
+    spec: 
+      containers: 
+        - name: backend-container 
+          image: henhen7/be08-4th-2team:1.0-be 
+          resources: 
+            requests: 
+              memory: "1024Mi"
+              cpu: "600m"
+            limits: 
+              memory: "3Gi" 
+              cpu: "2000m" 
           ports:
           - containerPort: 8080
-      terminationGracePeriodSeconds: 5 # 파드 종료까지의 대기 시간 설정
+      terminationGracePeriodSeconds: 5
