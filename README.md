@@ -103,7 +103,7 @@
 
 
 ## 📋 시스템 아키텍처
-![image]()
+![image](https://github.com/user-attachments/assets/3ec78dc5-8d30-45fa-8213-d512a6155c6c)
 
 
 
