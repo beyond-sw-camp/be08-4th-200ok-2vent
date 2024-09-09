@@ -184,8 +184,12 @@ services:
 <details>
   <summary>Jenkins Pipeline</summary>
   1️⃣ git에 push할 시 webhook 발생
+  
+  ![1번](https://github.com/user-attachments/assets/59296724-af8b-4099-a6c5-8af084b7ce7d)
   <br><br>
   2️⃣ CI/CD
+
+  ![4번](https://github.com/user-attachments/assets/b366ea5c-25c9-4ffc-ac29-0ad9c28f26c7)
   <br><br>
   3️⃣ backend/frontend 중 변경된 사항이 없는 경우, build skip하고 변경된 것만 build
   <img width="1142" alt="02_변경사항X_빌드_스킵" src="https://github.com/user-attachments/assets/38e9928f-24ba-422a-8398-9e51b60b473f">
@@ -201,6 +205,7 @@ services:
   <img width="938" alt="01-1-4_프론트엔드_배포후_이미지명" src="https://github.com/user-attachments/assets/6e4a5b52-e143-44b9-9802-f83a70494417">
   <br><br>
   5️⃣ 작업 완료 후 discord webhook 발생
+  <br>
   <img width="365" alt="04_디스코드_웹훅" src="https://github.com/user-attachments/assets/ff8a8206-1c17-4107-846e-0b2ea03ad0de">
 
  
@@ -210,17 +215,28 @@ services:
   <summary>무중단 배포</summary>
   1️⃣ Backend
   <br>
+  
+  
+
   - Dashboard
+
+    ![5번](https://github.com/user-attachments/assets/8444c0f7-323d-4359-9c21-6dc7016f2f23)
   <br><br>
-  - 실행 화면
+  - 실행 화면(Swagger 타이틀 변경)
+
+    ![2번](https://github.com/user-attachments/assets/1a8ea04d-8a63-462a-bb18-cf3358d59a87)
+
   <br><br>
   2️⃣ Frontend
   <br>
   - Dashboard
+    
+    ![6번](https://github.com/user-attachments/assets/f9fd8184-dc84-4e71-9b10-4523d2dfac6e)
   <br><br>
-  - 실행 화면
-  
- 
+  - 실행 화면(메인 텍스트 변경)
+
+    ![3번](https://github.com/user-attachments/assets/2b6841ca-66d4-4c8b-9ff7-31fdded69c23)
+
 </details>
 
 <br><br>
