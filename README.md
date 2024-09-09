@@ -181,7 +181,47 @@ services:
 
 
 ## ✨ 배포 테스트
+<details>
+  <summary>Jenkins Pipeline</summary>
+  1️⃣ git에 push할 시 webhook 발생
+  <br><br>
+  2️⃣ CI/CD
+  <br><br>
+  3️⃣ backend/frontend 중 변경된 사항이 없는 경우, build skip하고 변경된 것만 build
+  <img width="1142" alt="02_변경사항X_빌드_스킵" src="https://github.com/user-attachments/assets/38e9928f-24ba-422a-8398-9e51b60b473f">
+  <br><br>
 
+  4️⃣ 배포가 완료되면 이미지 변경 확인
+  - Backend
+  <img width="940" alt="01-1-1_백엔드_배포전_이미지명" src="https://github.com/user-attachments/assets/2be065d8-c24b-4ac6-8064-b69135fb1351">
+  <img width="940" alt="01-1-2_백엔드_배포후_이미지명" src="https://github.com/user-attachments/assets/32e5456b-2ec5-470f-ac6e-9d2cb39c671f">
+
+  - Frontend
+  <img width="942" alt="01-1-3_프론트엔드_배포전_이미지명" src="https://github.com/user-attachments/assets/4cfb2150-5d80-4ef6-b277-92b83d98c487">
+  <img width="938" alt="01-1-4_프론트엔드_배포후_이미지명" src="https://github.com/user-attachments/assets/6e4a5b52-e143-44b9-9802-f83a70494417">
+  <br><br>
+  5️⃣ 작업 완료 후 discord webhook 발생
+  <img width="365" alt="04_디스코드_웹훅" src="https://github.com/user-attachments/assets/ff8a8206-1c17-4107-846e-0b2ea03ad0de">
+
+ 
+</details>
+
+<details>
+  <summary>무중단 배포</summary>
+  1️⃣ Backend
+  <br>
+  - Dashboard
+  <br><br>
+  - 실행 화면
+  <br><br>
+  2️⃣ Frontend
+  <br>
+  - Dashboard
+  <br><br>
+  - 실행 화면
+  
+ 
+</details>
 
 <br><br>
 
