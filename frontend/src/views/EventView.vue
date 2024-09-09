@@ -139,7 +139,7 @@
 
     async function getEventsAPI(page){
         try{
-            const response = await axios.get(`http://localhost:8080/v1/api/event`,{
+            const response = await axios.get(`http://localhost:30080/v1/api/event`,{
                 params:{
                     page:page,
                     size: 9,

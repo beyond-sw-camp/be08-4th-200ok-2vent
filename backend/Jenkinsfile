@@ -1,0 +1,135 @@
+pipeline {
+    agent {
+        kubernetes {
+            yaml '''
+            apiVersion: v1
+            kind: Pod
+            spec:
+              containers:
+              - name: docker
+                image: docker:27.2.0-alpine3.20
+                command:
+                - cat
+                tty: true
+                volumeMounts:
+                - name: docker-socket
+                  mountPath: "/var/run/docker.sock"
+              - name: kubectl
+                image: gcr.io/cloud-builders/kubectl
+                command:
+                - cat
+                tty: true
+              volumes:
+              - name: docker-socket
+                hostPath:
+                  path: "/var/run/docker.sock"
+            '''
+        }
+    }
+    // 환경 변수
+    environment {
+        DOCKER_HUB_REPO = 'sjpark08/be08-4th-2team-backend'// -> ${도커허브 아이디}/{레포지토리 이름}
+        DOCKER_IMAGE_TAG = "0.${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
+        WEBHOOK_URL = credentials('discord_webhook')
+    }
+    stages {
+        // GitHub에서 소스 코드 체크아웃
+        stage('Checkout Code from GitHub') {
+            steps {
+                git branch: 'jenkins-sj', 
+                url: 'https://github.com/beyond-sw-camp/be08-4th-2team.git',
+                credentialsId: 'be08-4th-2team-jenkins'
+            }
+        }
+
+        stage('Check Changes') {
+            steps {
+                script {
+                    // 변경된 파일 목록 가져오기
+                    def changedFiles = sh(script: 'git diff-tree --no-commit-id --name-only -r $GIT_COMMIT', returnStdout: true).trim().split('\n')
+
+                    // 프론트엔드 디렉터리 변경 감지
+                    env.BACKEND_CHANGED = changedFiles.any { it.startsWith('backend/') } ? 'true' : 'false'
+                }
+            }
+        }
+        
+        // Build
+        stage('Build Backend') {
+            when {
+                expression { env.BACKEND_CHANGED == 'true' }
+            }
+            steps {
+                withCredentials([file(credentialsId: 'secret', variable: 'dbConfigFile')]) {
+                    script {
+                        sh """
+                            mkdir ./backend/src/main/resources
+                            cp $dbConfigFile ./backend/src/main/resources/application.yml
+                        """
+                    }
+                }
+                sh """
+                    cd ./backend
+                    pwd
+                    ls -la
+                    chmod +x gradlew
+                    ./gradlew build
+                """
+            }
+        }
+        // Build Docker Image
+        stage('Docker Image Build & Push') {
+            when {
+                expression { env.BACKEND_CHANGED == 'true' }
+            }
+            steps {
+                container('docker'){
+                    dir('backend') {
+                        script {
+                            echo "DOCKER_IMAGE_TAG: $DOCKER_IMAGE_TAG"
+                            sh 'docker logout'
+
+                            withCredentials([usernamePassword(credentialsId: 'dockerhub_access', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD' )]) {
+                                sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                            }
+
+                                sh 'docker build --no-cache -t $DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG ./'
+                                sh 'docker image inspect $DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG'
+                                sh 'docker push $DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG'
+
+                            sh 'docker logout'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
+                discordSend description: """
+                제목 : ${currentBuild.displayName}
+                결과 : ${currentBuild.result}
+                실행 시간 : ${currentBuild.duration / 1000}s
+                """,
+                result: currentBuild.currentResult,
+                title: "${env.JOB_NAME} : ${currentBuild.displayName} 성공", 
+                webhookURL: "${DISCORD}"
+            }
+        }
+        failure {
+            withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
+                discordSend description: """
+                제목 : ${currentBuild.displayName}
+                결과 : ${currentBuild.result}
+                실행 시간 : ${currentBuild.duration / 1000}s
+                """,
+                result: currentBuild.currentResult,
+                title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패", 
+                webhookURL: "${DISCORD}"
+            }
+        }
+    }
+    
+}

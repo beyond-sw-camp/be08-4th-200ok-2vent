@@ -6,7 +6,7 @@
     
     useKakao('eb23c25e315167fe3636e6b85fdd2b87');
     
-    const baseUrl = 'http://localhost:8080/v1/api/event';
+    const baseUrl = 'http://localhost:30080/v1/api/event';
     const list = ref([]);
     const router = useRouter();
     
