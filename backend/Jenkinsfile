@@ -28,32 +28,27 @@ pipeline {
     }
     // 환경 변수
     environment {
-        DOCKER_HUB_REPO = 'sjpark08/be08-4th-2team-backend'// -> ${도커허브 아이디}/{레포지토리 이름}
-        DOCKER_IMAGE_TAG = "0.${env.BUILD_NUMBER}" // Jenkins에서 자동으로 생성
-        WEBHOOK_URL = credentials('discord_webhook')
-    }
+        DOCKER_HUB_REPO = 'henhen7/be08-4th-2team'// -> ${도커허브 아이디}/{레포지토리 이름}
+        DOCKER_IMAGE_TAG = "1.${env.BUILD_NUMBER}-be" // Jenkins에서 자동으로 생성
+	    WEBHOOK_URL = credentials('discord_webhook')
+	}
     stages {
         // GitHub에서 소스 코드 체크아웃
         stage('Checkout Code from GitHub') {
             steps {
-                git branch: 'jenkins-sj', 
+                git branch: 'jenkins-back',
                 url: 'https://github.com/beyond-sw-camp/be08-4th-2team.git',
                 credentialsId: 'be08-4th-2team-jenkins'
             }
         }
-
         stage('Check Changes') {
             steps {
                 script {
-                    // 변경된 파일 목록 가져오기
                     def changedFiles = sh(script: 'git diff-tree --no-commit-id --name-only -r $GIT_COMMIT', returnStdout: true).trim().split('\n')
-
-                    // 프론트엔드 디렉터리 변경 감지
                     env.BACKEND_CHANGED = changedFiles.any { it.startsWith('backend/') } ? 'true' : 'false'
                 }
             }
         }
-        
         // Build
         stage('Build Backend') {
             when {
@@ -103,8 +98,20 @@ pipeline {
                 }
             }
         }
+        // Deployment
+        stage('Deployment') {
+            steps {
+                container('kubectl') {
+                    script {
+                        sh 'kubectl version'
+                        sh 'kubectl get po'
+                        sh 'kubectl set image deployment backend-deployment backend-container=$DOCKER_HUB_REPO:$DOCKER_IMAGE_TAG -n default'
+                    }
+                }
+            }
+        }
     }
-
+    // Discord Webhook
     post {
         success {
             withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
@@ -114,7 +121,7 @@ pipeline {
                 실행 시간 : ${currentBuild.duration / 1000}s
                 """,
                 result: currentBuild.currentResult,
-                title: "${env.JOB_NAME} : ${currentBuild.displayName} 성공", 
+                title: "${env.JOB_NAME} : ${currentBuild.displayName} 성공",
                 webhookURL: "${DISCORD}"
             }
         }
@@ -126,10 +133,9 @@ pipeline {
                 실행 시간 : ${currentBuild.duration / 1000}s
                 """,
                 result: currentBuild.currentResult,
-                title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패", 
+                title: "${env.JOB_NAME} : ${currentBuild.displayName} 실패",
                 webhookURL: "${DISCORD}"
             }
         }
     }
-    
 }

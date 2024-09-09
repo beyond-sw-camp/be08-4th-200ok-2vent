@@ -17,7 +17,7 @@ spec: # 세부 설정
     spec: # 세부 설정
       containers: # 컨테이너 설정
         - name: frontend-container # 컨테이너의 이름
-          image: sjpark08/be08-4th-2team-frontend:0.96 # 컨테이너에 사용할 이미지 및 이미지 버전 설정
+          image: henhen7/be08-4th-2team:1.14-fe # 컨테이너에 사용할 이미지 및 이미지 버전 설정
           resources: # 컨테이너의 리소스 제한 및 요청 설정
             requests: # 컨테이너가 요청하는 리소스 설정
               memory: "1024" # 메모리 요청 ( 실제 실행된 파드 참고 설정 )
