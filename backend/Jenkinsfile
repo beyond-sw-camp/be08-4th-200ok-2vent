@@ -110,7 +110,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         success {
             withCredentials([string(credentialsId: 'discord_webhook', variable: 'DISCORD')]) {
@@ -138,3 +138,4 @@ pipeline {
         }
     }
 }
+
