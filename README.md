@@ -140,12 +140,12 @@
 ## 🔧 배포 파일
 
 #### FRONTEND CODE
- 🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/blob/jenkins-sj/frontend/Jenkinsfile">PIPELINE</a> <br>
+ 🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/blob/main/frontend/Jenkinsfile">PIPELINE</a> <br>
  🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/tree/main/k8s/frontend">k8s</a>
 
 
 #### BACKEND CODE
- 🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/blob/jenkins-sj/backend/Jenkinsfile">PIPELINE</a> <br>
+ 🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/blob/main/backend/Jenkinsfile">PIPELINE</a> <br>
  🔗 <a href="https://github.com/beyond-sw-camp/be08-4th-200ok-2vent/tree/main/k8s/backend">k8s</a>
 
 
