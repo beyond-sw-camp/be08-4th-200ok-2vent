@@ -101,7 +101,6 @@
 
 <br>
 
-![link]https://github.com/beyond-sw-camp/be08-4th-200ok-2vent?tab=readme-ov-file#-%EB%B0%B0%ED%8F%AC-%ED%85%8C%EC%8A%A4%ED%8A%B8
 
 ## 📋 시스템 아키텍처
 ![image](https://github.com/user-attachments/assets/3ec78dc5-8d30-45fa-8213-d512a6155c6c)
