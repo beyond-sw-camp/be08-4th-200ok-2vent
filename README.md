@@ -239,15 +239,42 @@ services:
 
 </details>
 
+<details>
+  <summary>실행 화면</summary>
+  <br>
+  
+  
+
+  - 메인 페이지
+    
+    <img width="1488" alt="메인 페이지" src="https://github.com/user-attachments/assets/475b9b12-d180-4e2e-921e-e13ed4253f13">
+
+  <br><br>
+  - 리스트 페이지 조회
+
+    <img width="1491" alt="리스트" src="https://github.com/user-attachments/assets/2736a639-2f32-4fc7-85dd-ab653a4ba320">
+
+  <br><br>
+  - 게시글 작성 기능 테스트
+
+    <img width="1501" alt="게시물작성" src="https://github.com/user-attachments/assets/785da058-7220-47b2-bbb9-7db7eaffb764">
+
+  <br><br>
+  - 회원 즐겨찾기 기능 테스트
+
+    <img width="1491" alt="즐겨찾기" src="https://github.com/user-attachments/assets/4b5f8cd2-35a1-4cd7-92d4-ad825b22cfdf">
+
+
+</details>
 <br><br>
 
 
-## 🍙 회고록
+## 🍙 한줄 회고록
 |&nbsp;&nbsp;&nbsp;&nbsp;팀&nbsp;원&nbsp;&nbsp;&nbsp;&nbsp;|회고|
 |:----:|----|
 |박성준|<br>Docker, Kubernetes, Jenkins를 활용한 CI/CD 구축을 경험해볼 수 있는 프로젝트였습니다. 다만 제약사항으로 인해 로컬에서 테스트한 것이 아쉽습니다. 팀원들 고생하셨습니다~<br>&nbsp;|
 |김도하|<br><br>&nbsp;|
-|서현지|<br><br>&nbsp;|
+|서현지|<br>고생하셨습니다. 파이널 하러 갑쉬다~<br>&nbsp;|
 |전현규|<br><br>&nbsp;|
 |조혜인|<br><br>&nbsp;|
 
