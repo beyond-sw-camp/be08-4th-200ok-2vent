@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Post", description = "게시판 관리")
+@Tag(name = "Post", description = "게시판 관리 목록")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("v1/api/post")
