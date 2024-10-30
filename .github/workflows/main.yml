@@ -12,11 +12,13 @@ jobs:
     steps:
       - name: Checkout code from GitHub
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Check if backend code has changed
         id: check
         run: |
-          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r $GITHUB_SHA)
+          CHANGED_FILES=$(git diff --name-only origin/main $GITHUB_SHA)
           echo "CHANGED_FILES=$CHANGED_FILES"
           if echo "$CHANGED_FILES" | grep -q '^backend/'; then
             echo "backend_changed=true" >> $GITHUB_ENV
@@ -25,7 +27,7 @@ jobs:
           fi
     outputs:
       backend-changed: ${{ env.backend_changed }}
-      
+
   build-backend:
     runs-on: ubuntu-latest
     needs: check-changes
@@ -91,6 +93,7 @@ jobs:
   notify-discord:
     runs-on: ubuntu-latest
     needs: [build-backend, docker-build-push, deploy-backend]
+    if: always()
     steps:
       - name: Send notification to Discord
         if: success()
@@ -99,4 +102,4 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" \
             -d '{"content":"**CI/CD Pipeline Success**\n'\
-                  'Build Number: '${{ github.run_number }}'\n'\
+                  'Build Number: '${{ github.run_number }}\'}' \
