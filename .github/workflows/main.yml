@@ -7,18 +7,12 @@ on:
       - main
 
 jobs:
-  checkout-code:
+  check-changes:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code from GitHub
         uses: actions/checkout@v3
 
-  check-changes:
-    runs-on: ubuntu-latest
-    needs: checkout-code
-    outputs:
-      backend-changed: ${{ steps.check.outputs.backend_changed }}
-    steps:
       - name: Check if backend code has changed
         id: check
         run: |
@@ -29,6 +23,8 @@ jobs:
           else
             echo "::set-output name=backend_changed::false"
           fi
+    outputs:
+      backend-changed: ${{ steps.check.outputs.backend_changed }}
 
   build-backend:
     runs-on: ubuntu-latest
